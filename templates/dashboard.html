@@ -15,8 +15,10 @@
     .bar img { height: 32px; }
     .tab { display: none; padding: 20px; }
     .tab.active { display: block; }
+    .empty { display: flex; align-items: center; justify-content: center;
+             min-height: 60vh; border: 2px dashed #ccc; border-radius: 8px;
+             color: #777; font-size: 1.2em; }
     .grp { margin: 12px 0; }
-    .grp:not(:has(.opt)) { display: none; }  /* hide empty groups */
     input, select { padding: 6px; margin: 4px 0; }
   </style>
 </head>
@@ -32,38 +34,9 @@
     </div>
   </header>
 
-  <section id="pedidos" class="tab active"></section>
-  <section id="productos" class="tab"></section>
-
-  <section id="agregar" class="tab">
-    <form method="POST" action="/dashboard/products">
-      <input name="name" placeholder="Nombre" required><br>
-      <input name="description" placeholder="Descripción"><br>
-      <input name="price" type="number" placeholder="Precio (pts)" required><br>
-      <select name="category" required>
-        <option value="">Categoría</option>
-        {% for c in categories %}
-        <option value="{{ c }}">{{ c }}</option>
-        {% endfor %}
-      </select>
-      
-
-      <hr>
-      <select onchange="addOpt(this)">
-        <option value="">Agregar opción</option>
-        <option value="single">Singular</option>
-        <option value="multi">Múltiple</option>
-        <option value="quantity">Cantidad</option>
-      </select>
-
-      <div class="grp"><h4>Singular</h4><div id="single"></div></div>
-      <div class="grp"><h4>Múltiple</h4><div id="multi"></div></div>
-      <div class="grp"><h4>Cantidad</h4><div id="quantity"></div></div>
-
-      <button type="submit">Agregar</button>
-      <button type="reset">Cancelar</button>
-    </form>
-  </section>
+  {% include 'orders_panel.html' %}
+  {% include 'products_panel.html' %}
+  {% include 'add_product_panel.html' %}
 
   <script>
     function showTab(id, btn) {
@@ -71,16 +44,6 @@
       document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
       document.getElementById(id).classList.add('active');
       btn.classList.add('active');
-    }
-
-    function addOpt(sel) {
-      if (!sel.value) return;
-      const row = document.createElement('div');
-      row.className = 'opt';
-      row.innerHTML = `<input name="${sel.value}" placeholder="Nombre" required>
-                       <button type="button" onclick="this.parentElement.remove()">✕</button>`;
-      document.getElementById(sel.value).appendChild(row);
-      sel.value = '';  // back to "Agregar opción"
     }
   </script>
 </body>

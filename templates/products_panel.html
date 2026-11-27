@@ -1,0 +1,11 @@
+<section id="productos" class="tab">
+  {% if products %}
+    <ul>
+      {% for product in products %}
+        <li>{{ product.product_name }} - {{ product.price }} pts</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="empty">No hay productos registrados</div>
+  {% endif %}
+</section>

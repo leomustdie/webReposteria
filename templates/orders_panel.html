@@ -1,0 +1,9 @@
+<section id="pedidos" class="tab active">
+  {% if orders %}
+    {% for order in orders %}
+      {% include 'order_template.html' %}
+    {% endfor %}
+  {% else %}
+    <div class="empty">No se han recibido órdenes</div>
+  {% endif %}
+</section>

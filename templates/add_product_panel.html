@@ -1,0 +1,46 @@
+<section id="agregar" class="tab">
+  {% set tipos = {'single': 'Singular', 'multi': 'Múltiple', 'quantity': 'Cantidad'} %}
+
+  <form method="POST" action="/dashboard/products" enctype="multipart/form-data"
+        onreset="imgName.textContent = ''">
+    <input name="product_name" placeholder="Nombre" required><br>
+    <input name="description" placeholder="Descripción"><br>
+    <input name="price" type="number" min="0" placeholder="Precio (pts)" required><br>
+    <input name="making_time" type="number" min="0" placeholder="Tiempo de preparación (min)" required><br>
+
+    <select name="category_id" required>
+      <option value="">Categoría</option>
+      {% for c in categories %}
+      <option value="{{ c.category_id }}">{{ c.category_name }}</option>
+      {% endfor %}
+    </select><br>
+
+    <input type="file" name="photo" id="photo" accept="image/*" hidden
+           onchange="imgName.textContent = this.files[0]?.name || ''">
+    <button type="button" onclick="photo.click()">Subir imagen</button>
+    <span id="imgName"></span>
+
+    <hr>
+    <h3>Opciones</h3>
+    {% for group, items in options|groupby('group_name') %}
+    <div class="grp">
+      <h4>{{ group }} ({{ tipos[items[0].option_type] }})</h4>
+      {% for o in items %}
+      <div>
+        <label>
+          <input type="checkbox" name="option_ids" value="{{ o.option_id }}">
+          {{ o.option_name }}
+        </label>
+        <input type="number" name="extra_price_{{ o.option_id }}" value="0" min="0"
+               placeholder="+ pts" style="width: 80px;">
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p>No hay opciones registradas</p>
+    {% endfor %}
+
+    <button type="submit">Agregar</button>
+    <button type="reset">Cancelar</button>
+  </form>
+</section>
