@@ -1,0 +1,21 @@
+<article class="orden" data-order-id="{{ order.order_id }}">
+  <h3>Orden de @{{ order.username }}</h3>
+
+  <ul class="orden-productos">
+    {% for item in order.products %}
+    <li>
+      <span class="producto-nombre">{{ item.name }}{% if item.quantity > 1 %} ×{{ item.quantity }}{% endif %}</span>
+      {% if item.options_text %}<span class="producto-opciones">{{ item.options_text }}</span>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+
+  {% if order.notes %}
+  <p class="orden-notas"><strong>Notas:</strong> {{ order.notes }}</p>
+  {% endif %}
+
+  <div class="orden-botones">
+    <button type="button" class="btn btn-secundario" data-accion="descartado">Descartar</button>
+    <button type="button" class="btn" data-accion="realizado">Realizado</button>
+  </div>
+</article>

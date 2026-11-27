@@ -1,0 +1,817 @@
+/* =====================================================================
+   Moka & Cake - hoja de estilos compartida
+   Usada por: home.html, login.html y dashboard.html (con sus paneles).
+   Para cambiar colores, fuentes o tamaños, edita las variables de :root.
+   ===================================================================== */
+
+:root {
+    /* Colores */
+    --texto: #50382e;
+    --texto-suave: #756155;
+    --texto-tenue: #a2938a;
+    --acento: #397e76;
+    --acento-oscuro: #2f6a63;
+    --crema: #fffaf3;
+    --crema-oscuro: #e9ded0;
+    --tarjeta: #fffdf8;
+    --borde: #e6dac9;
+    --borde-input: #ded0be;
+    --borde-logo: #bda58f;
+    --fondo-input: #fffefa;
+    --boton-secundario: #e9ded0;
+    --boton-secundario-hover: #dfd2c1;
+    --error-texto: #8a3a2e;
+    --error-fondo: #fdf2ef;
+    --error-borde: #efcdc5;
+
+    /* Tipografía */
+    --fuente: Arial, sans-serif;
+    --fuente-titulos: Georgia, serif;
+
+    /* Formas */
+    --radio-tarjeta: 14px;
+    --radio-campo: 8px;
+    --sombra-tarjeta: 0 20px 45px -28px rgba(80, 56, 46, .55),
+                      0 2px 6px rgba(80, 56, 46, .06);
+    --sombra-suave: 0 10px 28px -20px rgba(80, 56, 46, .5),
+                    0 1px 4px rgba(80, 56, 46, .06);
+
+    /* Dashboard */
+    --orden-ancho: 300px;
+    --producto-ancho-max: 860px;
+    --alto-encabezado: 46px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100svh;
+    background: radial-gradient(ellipse at 50% 40%, var(--crema), var(--crema-oscuro));
+    color: var(--texto);
+    font-family: var(--fuente);
+}
+
+/* ---------------------------------------------------------------------
+   Identidad visual (home y login)
+   --------------------------------------------------------------------- */
+
+.logo {
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 26px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--borde-logo);
+    border-radius: 50%;
+    color: var(--texto);
+}
+
+.categoria {
+    color: var(--acento);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+h1 {
+    font: normal clamp(42px, 8vw, 76px)/1.1 var(--fuente-titulos);
+    margin: 15px 0 18px;
+}
+
+.linea {
+    width: 45px;
+    height: 2px;
+    background: var(--acento);
+    margin: 0 auto 22px;
+}
+
+.mensaje {
+    color: var(--texto-suave);
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ---------------------------------------------------------------------
+   Componentes compartidos: tarjeta, campos, botones
+   --------------------------------------------------------------------- */
+
+.tarjeta {
+    padding: clamp(24px, 5vw, 38px);
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-tarjeta);
+    box-shadow: var(--sombra-tarjeta);
+    text-align: left;
+}
+
+.tarjeta h2 {
+    font: normal clamp(27px, 4vw, 34px)/1.2 var(--fuente-titulos);
+    color: var(--texto);
+    text-align: center;
+    margin: 0 0 26px;
+}
+
+.campo {
+    margin-bottom: 18px;
+}
+
+.campo label {
+    display: block;
+    font-size: 15px;
+    color: var(--texto);
+    margin-bottom: 7px;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    padding: 13px 15px;
+    font: inherit;
+    font-size: 15px;
+    color: var(--texto);
+    background: var(--fondo-input);
+    border: 1px solid var(--borde-input);
+    border-radius: var(--radio-campo);
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.campo input::placeholder {
+    color: var(--texto-tenue);
+}
+
+.campo input:focus,
+.campo select:focus {
+    outline: none;
+    border-color: var(--acento);
+    box-shadow: 0 0 0 3px rgba(57, 126, 118, .18);
+}
+
+.error {
+    margin: 0 0 18px;
+    padding: 11px 14px;
+    font-size: 14px;
+    color: var(--error-texto);
+    background: var(--error-fondo);
+    border: 1px solid var(--error-borde);
+    border-radius: var(--radio-campo);
+}
+
+.entrar,
+.btn {
+    padding: 14px;
+    font: inherit;
+    font-size: 15px;
+    font-weight: bold;
+    color: #ffffff;
+    background: var(--acento);
+    border: 0;
+    border-radius: var(--radio-campo);
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.entrar:hover,
+.btn:hover {
+    background: var(--acento-oscuro);
+}
+
+.entrar:focus-visible,
+.btn:focus-visible {
+    outline: 2px solid var(--acento);
+    outline-offset: 2px;
+}
+
+.entrar {
+    width: 100%;
+    margin-top: 4px;
+}
+
+.btn-secundario {
+    color: var(--texto);
+    background: var(--boton-secundario);
+}
+
+.btn-secundario:hover {
+    background: var(--boton-secundario-hover);
+}
+
+.btn:disabled {
+    opacity: .6;
+    cursor: default;
+}
+
+/* ---------------------------------------------------------------------
+   Home
+   --------------------------------------------------------------------- */
+
+.pagina-home {
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+
+.pagina-home main {
+    display: grid;
+    place-items: center;
+    padding: 32px 24px;
+}
+
+.pagina-home .bienvenida {
+    text-align: center;
+}
+
+.pagina-home footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 26px 23px;
+}
+
+.personal {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--texto-suave);
+    font-size: 12px;
+    text-decoration: none;
+    padding: 7px 9px;
+    border-radius: 5px;
+    transition: color .2s, background .2s;
+}
+
+.personal:hover {
+    color: var(--acento);
+    background: var(--crema);
+}
+
+.personal:focus-visible {
+    outline: 2px solid var(--acento);
+}
+
+/* ---------------------------------------------------------------------
+   Login
+   --------------------------------------------------------------------- */
+
+.pagina-login {
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.pagina-login main {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    padding: 40px 24px;
+}
+
+.pagina-login .contenido {
+    width: 100%;
+    max-width: 640px;
+    text-align: center;
+}
+
+.pagina-login .tarjeta {
+    margin-top: 36px;
+}
+
+.pagina-login footer {
+    display: flex;
+    justify-content: center;
+    padding: 0 24px 28px;
+}
+
+.volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--texto-suave);
+    font-size: 13px;
+    text-decoration: none;
+    padding: 7px 9px;
+    border-radius: 5px;
+    transition: color .2s, background .2s;
+}
+
+.volver:hover {
+    color: var(--acento);
+    background: var(--crema);
+}
+
+.volver:focus-visible {
+    outline: 2px solid var(--acento);
+}
+
+@media (max-width: 640px) {
+    .pagina-login main {
+        padding: 28px 18px;
+    }
+
+    .pagina-login .contenido {
+        max-width: 100%;
+    }
+
+    .pagina-login .logo {
+        width: 66px;
+        height: 66px;
+        margin-bottom: 22px;
+    }
+
+    .pagina-login .mensaje {
+        font-size: 15px;
+    }
+
+    .pagina-login .tarjeta {
+        margin-top: 28px;
+        padding: 24px 20px;
+        border-radius: 12px;
+    }
+
+    .pagina-login .tarjeta h2 {
+        margin-bottom: 22px;
+    }
+
+    .pagina-login footer {
+        padding: 0 18px 22px;
+    }
+}
+
+@media (max-height: 700px) and (min-width: 641px) {
+    .pagina-login main {
+        padding: 24px;
+    }
+
+    .pagina-login .logo {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 18px;
+    }
+
+    .pagina-login .tarjeta {
+        margin-top: 24px;
+    }
+}
+
+/* =====================================================================
+   Dashboard
+   ===================================================================== */
+
+.dashboard {
+    background: var(--crema);
+}
+
+/* ---------- Encabezado: pestañas a la izquierda, barra con logo a la derecha ---------- */
+
+.encabezado {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    border-bottom: 1px solid var(--borde);
+}
+
+.pestanas {
+    display: flex;
+    align-items: flex-end;
+}
+
+.pestanas button {
+    min-height: var(--alto-encabezado);
+    padding: 0 22px;
+    font: inherit;
+    font-size: 15px;
+    color: var(--texto-suave);
+    background: var(--crema-oscuro);
+    border: 1px solid var(--borde);
+    border-bottom: 0;
+    border-left-width: 0;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+}
+
+.pestanas button:first-child {
+    border-left-width: 1px;
+}
+
+.pestanas button:hover {
+    background: var(--boton-secundario-hover);
+}
+
+.pestanas button.activa {
+    margin-bottom: -1px;               /* se funde con el contenido */
+    min-height: calc(var(--alto-encabezado) + 1px);
+    color: var(--texto);
+    font-weight: bold;
+    background: var(--crema);
+    border-top: 3px solid var(--acento);
+}
+
+.pestanas button:focus-visible {
+    outline: 2px solid var(--acento);
+    outline-offset: -4px;
+}
+
+.barra {
+    flex: 1 1 140px;
+    min-width: 0;
+    min-height: var(--alto-encabezado);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 20px;
+    background: var(--acento);
+}
+
+.barra a {
+    display: flex;
+    border-radius: 5px;
+}
+
+.barra a:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 4px;
+}
+
+.barra img {
+    height: 30px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);   /* logo negro -> blanco */
+}
+
+/* ---------- Paneles ---------- */
+
+.contenido-panel {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: clamp(18px, 3vw, 36px);
+}
+
+.tab {
+    display: none;
+}
+
+.tab.activa {
+    display: block;
+}
+
+.vacio {
+    min-height: 55vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    text-align: center;
+    color: var(--texto-suave);
+    font: normal clamp(19px, 2.4vw, 24px)/1.4 var(--fuente-titulos);
+}
+
+/* ---------- Pedidos: tarjetas que se acomodan hacia la derecha ---------- */
+
+.ordenes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;           /* cada orden crece hacia abajo por su cuenta */
+    gap: 20px;
+}
+
+.orden {
+    flex: 0 1 var(--orden-ancho);
+    min-width: min(100%, 240px);
+    padding: 22px 22px 18px;
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-tarjeta);
+    box-shadow: var(--sombra-suave);
+}
+
+.orden h3 {
+    margin: 0 0 14px;
+    font: normal 23px/1.2 var(--fuente-titulos);
+    overflow-wrap: anywhere;
+}
+
+.orden-productos {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.orden-productos li + li {
+    margin-top: 12px;
+}
+
+.producto-nombre {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.producto-opciones {
+    display: block;
+    margin-top: 3px;
+    color: var(--texto-suave);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.orden-notas {
+    margin: 16px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--borde);
+    font-size: 15px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.orden-notas strong {
+    font: normal 18px var(--fuente-titulos);
+}
+
+.orden-botones {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.orden-botones .btn {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
+}
+
+/* ---------- Productos: lista vertical ---------- */
+
+.productos {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: var(--producto-ancho-max);
+    margin: 0 auto;
+}
+
+.producto {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 20px 12px 12px;
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio-tarjeta);
+    box-shadow: var(--sombra-suave);
+    transition: opacity .2s;
+}
+
+.producto.inactivo {
+    opacity: .55;
+}
+
+.producto-foto {
+    width: 68px;
+    height: 68px;
+    flex: none;
+    object-fit: cover;
+    border-radius: 10px;
+    background: var(--crema-oscuro);
+}
+
+.producto-foto.sin-foto {
+    display: grid;
+    place-items: center;
+    color: var(--texto-tenue);
+}
+
+.producto-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.producto-info h3 {
+    margin: 0 0 4px;
+    font: normal 20px/1.2 var(--fuente-titulos);
+}
+
+.producto-info p {
+    margin: 0;
+    color: var(--texto-suave);
+    font-size: 14px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Interruptor de disponibilidad */
+
+.switch {
+    position: relative;
+    flex: none;
+    width: 50px;
+    height: 28px;
+}
+
+.switch input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.switch .slider {
+    position: absolute;
+    inset: 0;
+    background: #cdbfae;
+    border-radius: 28px;
+    transition: background .2s;
+}
+
+.switch .slider::before {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .25);
+    transition: transform .2s;
+}
+
+.switch input:checked + .slider {
+    background: var(--acento);
+}
+
+.switch input:checked + .slider::before {
+    transform: translateX(22px);
+}
+
+.switch input:focus-visible + .slider {
+    outline: 2px solid var(--acento);
+    outline-offset: 2px;
+}
+
+/* ---------- Agregar producto ---------- */
+
+.formulario {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.imagen-fila {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.imagen-fila .btn {
+    padding: 11px 16px;
+    font-size: 14px;
+}
+
+#imgName {
+    min-width: 0;
+    color: var(--texto-suave);
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.formulario h3 {
+    margin: 28px 0 14px;
+    font: normal 22px var(--fuente-titulos);
+}
+
+.grupo-opciones {
+    margin-bottom: 12px;
+    padding: 14px 16px;
+    background: var(--fondo-input);
+    border: 1px solid var(--borde-input);
+    border-radius: 10px;
+}
+
+.grupo-opciones h4 {
+    margin: 0 0 10px;
+    font: normal 17px var(--fuente-titulos);
+}
+
+.grupo-opciones h4 small {
+    color: var(--texto-suave);
+    font: 13px var(--fuente);
+}
+
+.opciones-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+}
+
+.opcion {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.opcion input {
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    accent-color: var(--acento);
+}
+
+.opcion small {
+    color: var(--texto-suave);
+}
+
+.acciones {
+    display: flex;
+    gap: 12px;
+    margin-top: 26px;
+}
+
+.acciones .btn {
+    flex: 1;
+}
+
+/* ---------- Notificación (abajo a la derecha) ---------- */
+
+.notificacion {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: calc(100vw - 48px);
+    padding: 12px 20px 12px 14px;
+    color: var(--texto);
+    font-size: 15px;
+    background: var(--tarjeta);
+    border: 1px solid var(--borde);
+    border-left: 4px solid var(--acento);
+    border-radius: 999px;
+    box-shadow: var(--sombra-tarjeta);
+    pointer-events: none;
+    animation: notificacion 4.5s ease forwards;
+}
+
+.notificacion img {
+    width: 22px;
+    height: 22px;
+    flex: none;
+    object-fit: contain;
+}
+
+@keyframes notificacion {
+    0%   { opacity: 0; transform: translateY(14px); }
+    8%   { opacity: 1; transform: translateY(0); }
+    86%  { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(14px); visibility: hidden; }
+}
+
+/* ---------- Dashboard en pantallas pequeñas ---------- */
+
+@media (max-width: 640px) {
+    .pestanas button {
+        padding: 0 13px;
+        font-size: 13px;
+    }
+
+    .barra {
+        padding: 0 14px;
+    }
+
+    .barra img {
+        height: 24px;
+    }
+
+    .orden {
+        flex-basis: 100%;
+    }
+
+    .producto {
+        gap: 12px;
+        padding-right: 14px;
+    }
+
+    .acciones,
+    .imagen-fila {
+        flex-wrap: wrap;
+    }
+
+    .notificacion {
+        right: 12px;
+        bottom: 12px;
+    }
+}

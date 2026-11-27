@@ -1,9 +1,11 @@
-<section id="pedidos" class="tab active">
+<section id="pedidos" class="tab">
   {% if orders %}
+  <div class="ordenes">
     {% for order in orders %}
       {% include 'order_template.html' %}
     {% endfor %}
+  </div>
   {% else %}
-    <div class="empty">No se han recibido órdenes</div>
+  <div class="vacio">No se han recibido órdenes</div>
   {% endif %}
 </section>

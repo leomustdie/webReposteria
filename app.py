@@ -3,7 +3,7 @@ import re
 import uuid
 from datetime import datetime
 
-from flask import Flask, render_template, request, redirect, url_for, session, abort, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, abort, jsonify, flash
 from werkzeug.utils import secure_filename
 
 import database
@@ -41,18 +41,55 @@ def login():
 
 @app.route('/logout')
 def logout():
-    session.clear() 
-    return redirect(url_for('login'))
+    session.clear()
+    return redirect(url_for('home'))
 
 @app.route('/dashboard')
 def dashboard():
     if 'usuario' not in session:
         return redirect(url_for('login'))
-    # orders and products stay empty until their panels are connected
     return render_template('dashboard.html', usuario=session['usuario'],
-                           orders=[], products=[],
+                           orders=database.get_pending_orders(),
+                           products=database.get_all_products(),
                            categories=database.get_categories(),
                            option_groups=database.get_option_groups())
+
+# ---------- Dashboard: pieces the page reloads by itself ----------
+
+@app.route('/dashboard/panel/orders')
+def dashboard_panel_orders():
+    if 'usuario' not in session:
+        abort(401)
+    return render_template('orders_panel.html', orders=database.get_pending_orders())
+
+@app.route('/dashboard/panel/products')
+def dashboard_panel_products():
+    if 'usuario' not in session:
+        abort(401)
+    return render_template('products_panel.html', products=database.get_all_products())
+
+@app.route('/dashboard/orders/<int:order_id>/status', methods=['POST'])
+def dashboard_order_status(order_id):
+    if 'usuario' not in session:
+        abort(401)
+    data = request.get_json(silent=True) or {}
+    new_status = data.get('status')
+    if new_status not in (database.ORDER_DONE, database.ORDER_DISCARDED):
+        abort(400)
+    if not database.set_order_status(order_id, new_status):
+        return jsonify(success=False), 409  # doesn't exist or was already handled
+    return jsonify(success=True)
+
+@app.route('/dashboard/products/<int:product_id>/status', methods=['POST'])
+def dashboard_product_status(product_id):
+    if 'usuario' not in session:
+        abort(401)
+    data = request.get_json(silent=True) or {}
+    if not isinstance(data.get('active'), bool):
+        abort(400)
+    if not database.set_product_status(product_id, data['active']):
+        abort(404)
+    return jsonify(success=True)
 
 @app.route('/dashboard/products', methods=['POST'])
 def dashboard_add_product():
@@ -89,7 +126,8 @@ def dashboard_add_product():
         os.makedirs(folder, exist_ok=True)
         photo_file.save(os.path.join(app.static_folder, photo))
 
-    return redirect(url_for('dashboard'))
+    flash("Producto agregado correctamente")
+    return redirect(url_for('dashboard') + '#productos')
 
 # ---------- API for the cafeteria app ----------
 
@@ -134,6 +172,49 @@ def api_login():
     if database.check_user(username, password):
         return jsonify(success=True, message="Bienvenido")
     return jsonify(success=False, message="Usuario o contraseña incorrecta"), 401
+
+def read_order(data):
+    """Reads the order the app sends back. Only ids and quantities are used.
+
+    The app can send the menu JSON trimmed down to what the user chose, adding a
+    "quantity" to each product (and to each choice of a "quantity" option):
+    {"username": "ana", "notes": "...",
+     "items": [{"id": 1, "quantity": 2,
+                "options": [{"group": "Extras", "type": "quantity",
+                             "choices": [{"id": 15, "quantity": 2}]}]}]}
+    Raises ValueError/KeyError/TypeError/AttributeError if something is malformed.
+    """
+    username = str(data['username']).strip()
+    notes = str(data.get('notes') or '').strip()[:200]
+
+    items = []
+    for item in data['items']:
+        options = []
+        for group in item.get('options') or []:
+            for choice in group['choices']:
+                options.append({"id": int(choice['id']), "quantity": int(choice.get('quantity', 1))})
+        quantity = int(item.get('quantity', 1))
+        if quantity < 1:
+            raise ValueError("quantity")
+        items.append({"id": int(item['id']), "quantity": quantity, "options": options})
+
+    if not username or not items:
+        raise ValueError("empty")
+    return username, notes, items
+
+@app.route('/api/orders', methods=['POST'])
+def api_orders():
+    data = request.get_json(silent=True) or {}
+    try:
+        username, notes, items = read_order(data)
+    except (KeyError, TypeError, ValueError, AttributeError):
+        return jsonify(success=False, message="Pedido inválido"), 400
+
+    try:
+        result = database.create_order(username, notes, items)
+    except database.OrderError as e:
+        return jsonify(success=False, message=e.message), e.status
+    return jsonify(success=True, message="Pedido recibido", **result), 201
 
 if __name__ == '__main__':
     print("Servidor corriendo en: http://127.0.0.1:5000/home")

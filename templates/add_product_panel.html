@@ -1,44 +1,72 @@
 <section id="agregar" class="tab">
   {% set tipos = {'single': 'Singular', 'multi': 'Múltiple', 'quantity': 'Cantidad'} %}
 
-  <form method="POST" action="/dashboard/products" enctype="multipart/form-data"
-        onreset="imgName.textContent = ''">
-    <input name="product_name" placeholder="Nombre" required><br>
-    <input name="description" placeholder="Descripción"><br>
-    <input name="price" type="number" min="0" placeholder="Precio (pts)" required><br>
-    <input name="making_time" type="number" min="0" placeholder="Tiempo de preparación (min)" required><br>
+  <div class="tarjeta formulario">
+    <h2>Agregar producto</h2>
 
-    <select name="category_id" required>
-      <option value="">Categoría</option>
-      {% for c in categories %}
-      <option value="{{ c.category_id }}">{{ c.category_name }}</option>
-      {% endfor %}
-    </select><br>
-
-    <input type="file" name="photo" id="photo" accept="image/*" hidden
-           onchange="imgName.textContent = this.files[0]?.name || ''">
-    <button type="button" onclick="photo.click()">Subir imagen</button>
-    <span id="imgName"></span>
-
-    <hr>
-    <h3>Opciones</h3>
-    {% for g in option_groups %}
-    <div class="grp">
-      <h4>{{ g.group }} ({{ tipos[g.type] }})</h4>
-      {% for o in g.choices %}
-      <div>
-        <label>
-          <input type="checkbox" name="option_ids" value="{{ o.id }}">
-          {{ o.name }} (+{{ o.extra_price }} pts)
-        </label>
+    <form method="POST" action="/dashboard/products" enctype="multipart/form-data"
+          onreset="imgName.textContent = ''">
+      <div class="campo">
+        <label for="product_name">Nombre</label>
+        <input id="product_name" name="product_name" placeholder="Nombre del producto" required>
       </div>
-      {% endfor %}
-    </div>
-    {% else %}
-    <p>No hay opciones registradas</p>
-    {% endfor %}
 
-    <button type="submit">Agregar</button>
-    <button type="reset">Cancelar</button>
-  </form>
+      <div class="campo">
+        <label for="description">Descripción</label>
+        <input id="description" name="description" placeholder="Descripción">
+      </div>
+
+      <div class="campo">
+        <label for="price">Precio (pts)</label>
+        <input id="price" name="price" type="number" min="0" placeholder="Precio en puntos" required>
+      </div>
+
+      <div class="campo">
+        <label for="making_time">Tiempo de preparación (min)</label>
+        <input id="making_time" name="making_time" type="number" min="0" placeholder="Minutos" required>
+      </div>
+
+      <div class="campo">
+        <label for="category_id">Categoría</label>
+        <select id="category_id" name="category_id" required>
+          <option value="">Selecciona una categoría</option>
+          {% for c in categories %}
+          <option value="{{ c.category_id }}">{{ c.category_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="campo">
+        <label>Imagen</label>
+        <div class="imagen-fila">
+          <input type="file" name="photo" id="photo" accept="image/*" hidden
+                 onchange="imgName.textContent = this.files[0]?.name || ''">
+          <button type="button" class="btn btn-secundario" onclick="photo.click()">Subir imagen</button>
+          <span id="imgName"></span>
+        </div>
+      </div>
+
+      <h3>Opciones</h3>
+      {% for g in option_groups %}
+      <div class="grupo-opciones">
+        <h4>{{ g.group }} <small>({{ tipos[g.type] }})</small></h4>
+        <div class="opciones-lista">
+          {% for o in g.choices %}
+          <label class="opcion">
+            <input type="checkbox" name="option_ids" value="{{ o.id }}">
+            {{ o.name }} <small>(+{{ o.extra_price }} pts)</small>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+      {% else %}
+      <p>No hay opciones registradas</p>
+      {% endfor %}
+
+      <div class="acciones">
+        <button type="reset" class="btn btn-secundario">Cancelar</button>
+        <button type="submit" class="btn">Agregar</button>
+      </div>
+    </form>
+  </div>
 </section>

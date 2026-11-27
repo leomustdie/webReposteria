@@ -1,0 +1,10 @@
+{# Notificación abajo a la derecha. Se muestra una vez por cada mensaje que el servidor
+   guarda con flash(), y desaparece sola (la animación está en styles.css). #}
+{% with mensajes = get_flashed_messages() %}
+{% if mensajes %}
+<div class="notificacion" role="status">
+  <img src="{{ url_for('static', filename='icon_placeholder.png') }}" alt="">
+  <span>{{ mensajes[0] }}</span>
+</div>
+{% endif %}
+{% endwith %}
