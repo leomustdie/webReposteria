@@ -22,17 +22,15 @@
 
     <hr>
     <h3>Opciones</h3>
-    {% for group, items in options|groupby('group_name') %}
+    {% for g in option_groups %}
     <div class="grp">
-      <h4>{{ group }} ({{ tipos[items[0].option_type] }})</h4>
-      {% for o in items %}
+      <h4>{{ g.group }} ({{ tipos[g.type] }})</h4>
+      {% for o in g.choices %}
       <div>
         <label>
-          <input type="checkbox" name="option_ids" value="{{ o.option_id }}">
-          {{ o.option_name }}
+          <input type="checkbox" name="option_ids" value="{{ o.id }}">
+          {{ o.name }} (+{{ o.extra_price }} pts)
         </label>
-        <input type="number" name="extra_price_{{ o.option_id }}" value="0" min="0"
-               placeholder="+ pts" style="width: 80px;">
       </div>
       {% endfor %}
     </div>
