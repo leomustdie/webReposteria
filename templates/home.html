@@ -1,24 +1,152 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Moka & Cake | Home</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            min-height: 100svh;
+            display: grid;
+            grid-template-rows: 1fr auto;
+            background: radial-gradient(ellipse at 50% 40%, #fffaf3, #e9ded0);
+            color: #50382e;
+            font-family: Arial, sans-serif;
+        }
+
+        main {
+            display: grid;
+            place-items: center;
+            padding: 32px 24px;
+        }
+
+        .bienvenida {
+            text-align: center;
+        }
+
+        .logo {
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 26px;
+            display: grid;
+            place-items: center;
+            border: 1px solid #bda58f;
+            border-radius: 50%;
+            color: #50382e;
+        }
+
+        .categoria {
+            color: #397e76;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font: normal clamp(42px, 8vw, 76px)/1.1 Georgia, serif;
+            margin: 15px 0 18px;
+        }
+
+        .linea {
+            width: 45px;
+            height: 2px;
+            background: #397e76;
+            margin: 0 auto 22px;
+        }
+
+        .mensaje {
+            color: #756155;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 26px 23px;
+        }
+
+        .personal {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #756155;
+            font-size: 12px;
+            text-decoration: none;
+            padding: 7px 9px;
+            border-radius: 5px;
+            transition: color .2s, background .2s;
+        }
+
+        .personal:hover {
+            color: #397e76;
+            background: #fffaf3;
+        }
+
+        .personal:focus-visible {
+            outline: 2px solid #397e76;
+        }
+    </style>
 </head>
-<style>
-    body{
-        background-color: #a14179;
-    }
-    h1{
-        height: 90vh;
-        color: beige;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-</style>
+
 <body>
-    <h1>pagina web d moka & cake super pro acá bn nais</h1>
+
+   
+    <main>
+        <div class="bienvenida">
+
+           
+            <div class="logo" aria-hidden="true">
+                <svg width="36" height="36" viewBox="0 0 32 32"
+                    fill="none" stroke="currentColor"
+                    stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+
+                    <path d="M5 13h19v7a7 7 0 0 1-7 7h-5a7 7 0 0 1-7-7z
+                    M24 14h2a4 4 0 0 1 0 8h-2
+                    M3 30h25
+                    M11 9c-3-3 3-4 0-7
+                    M18 9c-3-3 3-4 0-7"/>
+                </svg>
+            </div>
+
+            <span class="categoria">Café y repostería</span>
+
+            <h1>Moka & Cake</h1>
+
+            <div class="linea"></div>
+
+            <p class="mensaje">Bienvenido a nuestro espacio.</p>
+
+        </div>
+    </main>
+
+    <footer>
+        <a class="personal" href="/login">
+
+            <svg aria-hidden="true" width="14" height="14"
+                viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round">
+
+                <circle cx="12" cy="8" r="3"/>
+                <path d="M5 20v-2a7 7 0 0 1 14 0v2"/>
+
+            </svg>
+
+            Acceso al personal
+        </a>
+    </footer>
+
 </body>
 </html>
