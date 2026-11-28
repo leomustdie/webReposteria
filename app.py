@@ -17,7 +17,9 @@ PHOTO_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.gif', '.webp'}
 
 BD_Empleados = {
     "derek": {"password": "contraseña"},
-    "leonel": {"password": "52837"}
+    "leonel": {"password": "52837"},
+    "kenya": {"password": "1234"}
+
 }
 
 @app.route('/home')
